@@ -25,5 +25,9 @@ Criar Petição
 <br>
 Assinar
 <br>
-    ``http://localhost:# Atividade Final de DSW Petições
-
+    ``http://localhost:5000/sign/peticao/:id``
+<br>
+Total de assinantes
+<br>
+    ``http://localhost:5000/total/peticao/:id``
+<br>
