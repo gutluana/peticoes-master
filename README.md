@@ -4,30 +4,32 @@
 Todas Petições
 <br>
 ``
-    http://localhost:5000/api/peticao/
+foi hospedado no vercel, por que nao consegui hospedar no heroku por conta do pagamento
+https://peticoes-master-9fx1.vercel.app/api/peticao/
+ 
 ``
 <br>
 Petição Por ID
 <br>
-    ``http://localhost:5000/api/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/:id``
 <br>
 Atualizar Petição
 <br>
-    ``http://localhost:5000/api/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/:id``
 <br>
 Deletar Petição
 <br>
-    ``http://localhost:5000/api/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/api/peticao/:id``
 <br>
 Criar Petição
 <br>
-    ``http://localhost:5000/api/peticao/``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/api/peticao/``
 <br>
 Assinar
 <br>
-    ``http://localhost:5000/sign/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/ign/peticao/:id``
 <br>
 Total de assinantes
 <br>
-    ``http://localhost:5000/total/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/total/peticao/:id``
 <br>
