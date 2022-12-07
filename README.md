@@ -1,10 +1,14 @@
 # Atividade Final de DSW Petições
 
-## Rotas
-
-Todas Petições
 <br>
 usuario autenticado: luana@gmail.com
+<br>
+
+## Collection para testes : https://elements.getpostman.com/redirect?entityId=21929452-ba2cf8a5-9e1e-4ca9-b7e1-acc38e66cce8&entityType=collection
+
+## Rotas
+<br>
+Todas Petições
 <br>
 ``
 https://peticoes-master-9fx1.vercel.app/api/peticao/
