@@ -1,13 +1,14 @@
 # Atividade Final de DSW Petições
 
 ## Rotas
+
 Todas Petições
 <br>
+usuario autenticado: luana@gmail.com
+<br>
 ``
-foi hospedado no vercel, por que nao consegui hospedar no heroku por conta do pagamento
 https://peticoes-master-9fx1.vercel.app/api/peticao/
- 
-``
+ ``
 <br>
 Petição Por ID
 <br>
