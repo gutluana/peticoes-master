@@ -42,5 +42,23 @@ module.exports = {
             console.log(`estou no: [routes] total peticao`);
             PeticaoController.totalPeticao(req, res);
         });
+    },
+    login: (app) => {
+        app.get('/login', (req, res) => {
+            console.log(`estou no: [routes] login`);
+            PeticaoController.login(req, res);
+        });
+    },
+    logout: (app) => {
+        app.get('/logout', (req, res) => {
+            console.log(`estou no: [routes] logout`);
+            PeticaoController.logout(req, res);
+        });
+    },
+    createLogin: (app) => {
+        app.post('/login', (req, res) => {
+            console.log(`estou no: [routes] create login`);
+            PeticaoController.createLogin(req, res);
+        });
     }
 }

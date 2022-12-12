@@ -1,6 +1,7 @@
 const PeticaoModel = require('../models/peticaoModel');
+let crypto = require('crypto');
 // pode ser na mesma classe
-const Joi = require('joi')
+const Joi = require('joi');
 
 const schema = Joi.object().keys({
     titulo: Joi.string().required().min(1).max(50),
@@ -29,10 +30,10 @@ module.exports = class PeticoesController {
     static async getPeticaoById(req, res) {
         console.log(`Controller peticoes - get peticao by id ${req.params.id}`);
         try {
-            const peticaoId = req.params.id;
-            const peticao = await PeticaoModel.getPeticaoById(peticaoId);
+            const id = req.params.id;
+            const peticao = await PeticaoModel.getPeticaoById(id);
             if (!peticao) 
-                return res.status(404).json(`Não existe peticao cadastrada com o id ${peticaoId}.`);
+                return res.status(404).json(`Não existe peticao cadastrada com o id ${id}.`);
             else
                 return res.status(200).json(peticao);
         } catch (error) {
@@ -41,52 +42,43 @@ module.exports = class PeticoesController {
         }
     }
     static async addPeticao(req, res) {
-        console.log('[Add Peticao Controller]', req.body);
-
-        //Verifica se os campos foram preenchidos corretamente
-        const { error, value } = schema.validate(req.body);
-        if (error) {
-            const result = {
-                msg: 'Peticao não incluída. Campos não foram preenchidos corretamente.',
-                error: error.details
-            }
-            return res.status(404).json(result);
-        }
-
-        //Verifica se o email foi preenchido corretamente
-        const usuario = req.headers['authorization'];
-        const { errorEmail, valueEmail } = schemaEmail.validate(usuario);
-        if (errorEmail) {
-            const result = {
-                msg: 'Peticao não incluída. Email não foi preenchido corretamente.',
-                error: errorEmail.details
-            }
-            return res.status(404).json(result);
-        }
-
+        const data = req.body;
+        console.log('[Add Peticao Controller]', data);
         try {
-            const addedPeticao = await PeticaoModel.addPeticao(req.body, usuario);
+            //Verifica se quem quer criar está autenticado
+            const usuario = req.session.email;
+            if(usuario == "" || usuario == null) return res.status(401).json("Petição não foi criada, você não tem acesso.");
+            
+            //Verifica se os campos foram preenchidos corretamente
+            const { error } = schema.validate(data);
+            if (error) {
+                return res.status(404).json({
+                    msg: 'Peticao não incluída. Campos não foram preenchidos corretamente.',
+                    error: error.details
+                });
+            }
+
+            const addedPeticao = await PeticaoModel.addPeticao(data, usuario);
             return res.status(200).json(addedPeticao);
         } catch (error) {
             return res.status(500).json(error);
         }
     }
     static async updatePeticao(req, res) {
-        console.log('[Update Peticao Controller]', req.body);
-
+        const data = req.body;
+        console.log('[Update Peticao Controller]', data);
+        
         //Verifica se petição existe
-        const peticaoId = req.params.id;
-        const peticao = await PeticaoModel.getPeticaoById(peticaoId);
-        if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${peticaoId}.`);
-
+        const id = req.params.id;
+        const peticao = await PeticaoModel.getPeticaoById(id);
+        if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${id}.`);
+        
         //Verifica se quem quer atualizar é o criador da petição
-        const usuario = req.headers['authorization'];
-        if(peticao.usuario != usuario) {
-            return res.status(401).json("Petição não atualizada, você não tem acesso.");
-        }
+        const usuario = req.session.email;
+        if (peticao.usuario != usuario) return res.status(401).json("Petição não atualizada, você não tem acesso.");
 
         //Verifica se os campos foram preenchidos corretamente
-        const { error, value } = schema.validate(req.body);
+        const { error } = schema.validate(data);
         if (error) {
             const result = {
                 msg: 'Peticao não atualizada. Campos não foram preenchidos corretamente.',
@@ -95,22 +87,20 @@ module.exports = class PeticoesController {
             return res.status(404).json(result);
         }
 
-        const updatedPeticao = await PeticaoModel.updatePeticao(peticaoId, req.body);
+        const updatedPeticao = await PeticaoModel.updatePeticao(id, data);
         return res.status(200).json(updatedPeticao);
     }
 
     static async deletePeticao(req, res) {
         try {
             //Verifica se petição existe
-            const peticaoId = req.params.id;
-            const peticao = await PeticaoModel.getPeticaoById(peticaoId);
-            if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${peticaoId}.`);
+            const id = req.params.id;
+            const peticao = await PeticaoModel.getPeticaoById(id);
+            if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${id}.`);
 
-            //Verifica se quem quer atualizar é o criador da petição
-            const usuario = req.headers['authorization'];
-            if(peticao.usuario != usuario) {
-                return res.status(401).json("Petição não deletada, você não tem acesso.");
-            }
+            //Verifica se quem quer deletar é o criador da petição
+            const usuario = req.session.email;
+            if (peticao.usuario != usuario) return res.status(401).json("Petição não deletada, você não tem acesso.");
 
             const deletePeticao = await PeticaoModel.deletePeticao(req.params.id);
             return res.status(200).json(deletePeticao);
@@ -121,21 +111,22 @@ module.exports = class PeticoesController {
 
     static async signPeticao(req, res) {
         try {
-            //Verifica se petição existe
-            const peticaoId = req.params.id;
-            const peticao = await PeticaoModel.getPeticaoById(peticaoId);
-            if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${peticaoId}.`);
+            //Verifica se a petição existe
+            const id = req.params.id;
+            const peticao = await PeticaoModel.getPeticaoById(id);
+            if (!peticao) return res.status(404).json(`Não existe peticao cadastrada com o id ${id}.`);
+
+            //Verifica se quem quer assinar está autenticado
+            const usuario = req.session.email;
+            if(usuario == "" && usuario != null) return res.status(401).json("Petição não foi assinada, você não tem acesso.");
 
             //Verifica se a petição já foi assinada
-            const usuario = req.headers['authorization'];
-            if(peticao.assinantes.includes(usuario)) {
-                return res.status(401).json("Petição não atualizada, você já tinha assinado.");
-            } else {
-                const assinantes = peticao.assinantes;
-                assinantes.push(usuario);
-                const signPeticao = await PeticaoModel.signPeticao(req.params.id, assinantes);
-                return res.status(200).json(signPeticao);
-            }
+            if (peticao.assinantes.includes(usuario)) return res.status(401).json("Você já tinha assinado essa petição.");
+
+            const assinantes = peticao.assinantes;
+            assinantes.push(usuario);
+            const signPeticao = await PeticaoModel.signPeticao(req.params.id, assinantes);
+            return res.status(200).json(signPeticao);
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -143,15 +134,75 @@ module.exports = class PeticoesController {
 
     static async totalPeticao(req, res) {
         try {
-            //Verifica se petição existe
-            const peticaoId = req.params.id;
-            const peticao = await PeticaoModel.getPeticaoById(peticaoId);
+            //Verifica se a petição existe
+            const id = req.params.id;
+            const peticao = await PeticaoModel.getPeticaoById(id);
             if (!peticao) {
-                return res.status(404).json(`Não existe peticao cadastrada com o id ${peticaoId}.`);
+                return res.status(404).json(`Não existe peticao cadastrada com o id ${id}.`);
             }
             else {
                 const totalPeticao = peticao.assinantes.length;
                 return res.status(200).json(`Total de assinantes: ${totalPeticao} da petição: ${peticao.titulo}. Assinantes: ${peticao.assinantes}`);
+            }
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    }
+    //Autenticar
+    static async login(req, res) {
+        const data = req.body;
+        const senha = crypto.createHash("md5").update(data.senha).digest("hex");
+        try {
+            //Verifica se o usuário existe
+            const usuario = await PeticaoModel.getUser(data.email);
+            if (!usuario) {
+                return res.status(404).json(`Não existe usuário cadastrado com o email ${data.email}.`);
+            } else if (usuario.senha != senha) {
+                return res.status(401).json(`Senha incorreta`);
+            }
+            else {
+                req.session.email = usuario.email;
+                console.log("LOGIN: ", req.session.email);
+                console.log("SESSION: ", req.session);
+                return res.status(200).json(`${req.session.email} entrou no sistema!`);
+            }
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    }
+
+    //Autenticar
+    static async logout(req, res) {
+        const usuario = req.session.email;
+        console.log("LOGOUT: ", req.session.email);
+        console.log("SESSION: ", req.session);
+        if(usuario != null && usuario != "") {
+            req.session.email = "";
+            return res.status(200).json(`${usuario} saiu do sistema!`);
+        } else {
+            return res.status(400).json(`Você ainda não tinha entrado no sistema!`);
+        }
+    }
+
+    //Criar usuário
+    static async createLogin(req, res) {
+        const data = req.body;
+        try {
+            //Verifica se o email foi preenchido corretamente
+            const { errorEmail } = schemaEmail.validate(data.email);
+            if (errorEmail) {
+                return res.status(400).json({
+                    msg: 'Email não foi preenchido corretamente.',
+                    error: errorEmail.details
+                });
+            } 
+            const usuario = await PeticaoModel.getUser(data.email);
+            if (!usuario) {
+                const novoUsuario = await PeticaoModel.postUser(data);
+                return res.status(200).json(`Usuário criado : ${novoUsuario}`);
+            }
+            else {
+                return res.status(401).json(`Email ${data.email} já está cadastrado`);
             }
         } catch (error) {
             return res.status(500).json(error);

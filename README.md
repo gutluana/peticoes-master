@@ -1,12 +1,27 @@
 # Atividade Final de DSW Petições
 
 <br>
-usuario autenticado: luana@gmail.com
+Usuarios cadastrados: 
+<br>
+luana@gmail.com
+<br>
+teste@gmail.com
 <br>
 
-## Collection para testes : https://elements.getpostman.com/redirect?entityId=21929452-ba2cf8a5-9e1e-4ca9-b7e1-acc38e66cce8&entityType=collection
+## Collection para testes:  https://elements.getpostman.com/redirect?entityId=21929452-790d4f8a-850c-46e6-adee-e27952b7e712&entityType=collection
 
 ## Rotas
+Login
+<br>
+    ``https://peticoes-master-9fx1.vercel.app/login/``
+<br>
+Logout
+<br>
+    ``https://peticoes-master-9fx1.vercel.app/logout/``
+<br>
+Criar Usuário
+<br>
+    ``https://peticoes-master-9fx1.vercel.app/login/``
 <br>
 Todas Petições
 <br>

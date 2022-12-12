@@ -1,5 +1,6 @@
-const client = require('../config/dbConnection')
-const { ObjectId } = require('mongodb')
+const client = require('../../config/dbConnection');
+let crypto = require('crypto');
+const { ObjectId } = require('mongodb');
 
 module.exports = class PeticaoModel {
     static async getAllPeticao() {
@@ -9,7 +10,6 @@ module.exports = class PeticaoModel {
         console.log(`[peticao controller: retorno do banco] ${peticoes}`)
         return peticoes;
     }
-
     static async getPeticaoById(peticaoId) {
         console.log(`[estou no PeticaoModel , getById] ${peticaoId}`);
         peticaoId = new ObjectId(peticaoId);
@@ -85,6 +85,25 @@ module.exports = class PeticaoModel {
             return updatedPeticao;
         } catch (error) {
             console.log(`[peticaoService] Error: ${error}`);
+        }
+    }
+    static async getUser(email) {
+        console.log(`[estou no PeticaoModel - getUser] ${email}`);
+        const user = await client.db("peticao").collection("usuarios").findOne({email});
+        return user;
+    }
+    static async postUser(usuario) {
+        console.log(`[Peticao Model - Create User] ${usuario}`);
+        try {
+            const newUser = {
+                email: usuario.email,
+                senha: crypto.createHash("md5").update(usuario.senha).digest("hex"),
+            }
+            const createdUser = await client.db("peticao").collection("usuarios").insertOne(newUser);
+            console.log(`New User inserted  ${createdUser}`);
+            return createdUser;
+        } catch (error) {
+            console.log(`[PeticaoService] Error: ${error}`);
         }
     }
 }
