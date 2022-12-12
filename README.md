@@ -11,45 +11,45 @@ teste@gmail.com
 ## Collection para testes:  https://elements.getpostman.com/redirect?entityId=21929452-790d4f8a-850c-46e6-adee-e27952b7e712&entityType=collection
 
 ## Rotas
-Login
+Login para entrar POST 
 <br>
     ``https://peticoes-master-9fx1.vercel.app/login/``
 <br>
-Logout
+Logout  GET
 <br>
     ``https://peticoes-master-9fx1.vercel.app/logout/``
 <br>
-Criar Usuário
+Criar Usuário GET
 <br>
     ``https://peticoes-master-9fx1.vercel.app/login/``
 <br>
-Todas Petições
+GET Todas Petições
 <br>
 ``
 https://peticoes-master-9fx1.vercel.app/api/peticao/
  ``
 <br>
-Petição Por ID
+GET Petição Por ID
 <br>
     ``https://peticoes-master-9fx1.vercel.app/api/peticao/:id``
 <br>
-Atualizar Petição
+PUT Atualizar Petição
 <br>
     ``https://peticoes-master-9fx1.vercel.app/api/peticao/:id``
 <br>
-Deletar Petição
+DELETE Deletar Petição
 <br>
-    ``https://peticoes-master-9fx1.vercel.app/api/peticao/api/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/:id``
 <br>
-Criar Petição
+POST Criar Petição
 <br>
-    ``https://peticoes-master-9fx1.vercel.app/api/peticao/api/peticao/``
+    ``https://peticoes-master-9fx1.vercel.app/api/peticao/``
 <br>
-Assinar
+POST Assinar
 <br>
-    ``https://peticoes-master-9fx1.vercel.app/api/peticao/ign/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/sign/peticao/:id``
 <br>
 Total de assinantes
 <br>
-    ``https://peticoes-master-9fx1.vercel.app/api/peticao/total/peticao/:id``
+    ``https://peticoes-master-9fx1.vercel.app/total/peticao/:id``
 <br>

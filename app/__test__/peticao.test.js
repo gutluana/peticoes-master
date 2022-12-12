@@ -124,7 +124,7 @@ describe('peticao', () => {
         });
     });
 
-    Logout
+   // Logout
     describe('Logout route', () => {
         it('should return a 200', async () => {
             app.all('*', async req => {
