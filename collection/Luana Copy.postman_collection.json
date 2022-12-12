@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "790d4f8a-850c-46e6-adee-e27952b7e712",
+		"name": "Luana Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "0"
+	},
+	"item": [
+		{
+			"name": "Todas Petições",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/api/peticao/",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"api",
+						"peticao",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Petição Por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/api/peticao/:id",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"api",
+						"peticao",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "636999666e8e50209fab508f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Petição",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titulo\": \"Ajuda aos animais PUT\",\r\n    \"descricao\": \"Petição para coletar fundos para os animais PUT\",\r\n    \"foto\": \"http://s2.glbimg.com/cYa3pKAKIPidjKyGPuAd8T4Hd1I=/e.glbimg.com/og/ed/f/original/2017/08/21/dog-2570398_960_720.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/api/peticao/:id",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"api",
+						"peticao",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "63976a35b75663da11be6fec"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Petição",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/api/peticao/:id",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"api",
+						"peticao",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "63976a35b75663da11be6fec"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Petição",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "luana@gmail.com",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titulo\": \"TÍTULO 3\",\r\n    \"descricao\": \"DESC NOVO\",\r\n    \"foto\": \"http://s2.glbimg.com/cYa3pKAKIPidjKyGPuAd8T4Hd1I=/e.glbimg.com/og/ed/f/original/2017/08/21/dog-2570398_960_720.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/api/peticao/",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"api",
+						"peticao",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assinar Petição",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "luana@gmail.com",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/sign/peticao/:id",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"sign",
+						"peticao",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "63974b38cc43b642fbea4638"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/login",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/logout",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Criar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "luana@gmail.com",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://peticoes-master-9fx1.vercel.app/login",
+					"protocol": "https",
+					"host": [
+						"peticoes-master-9fx1",
+						"vercel",
+						"app"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
